@@ -9,8 +9,13 @@ from orders.models import Order
 from .serializers import OrderListSerializer, OrderStatusUpdateSerializer
 
 from django.core.exceptions import PermissionDenied
+from drf_spectacular.utils import extend_schema
+from .serializers import OrderCreateSerializer
 
 
+@extend_schema(
+    request=OrderCreateSerializer,
+)
 class OrderCreateView(APIView):
     permission_classes = [IsAuthenticated]
 

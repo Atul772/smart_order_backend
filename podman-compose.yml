@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: smart_order_web
+    env_file:
+      - .env
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: docker.io/library/postgres:16
+    container_name: smart_order_db
+    environment:
+      POSTGRES_DB: smartdb
+      POSTGRES_USER: smartuser
+      POSTGRES_PASSWORD: smart123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: docker.io/library/redis:7
+    container_name: smart_order_redis
+
+  celery:
+    build: .
+    container_name: smart_order_celery
+    env_file:
+      - .env
+    command: celery -A config worker -l info
+    depends_on:
+      - web
+      - redis
+      - db
+
+volumes:
+  postgres_data:

@@ -62,15 +62,16 @@ class OrderService:
         logger.info(f"Order {order.id} created successfully")
 
         send_email_task.delay(
-            subject="Payment Successful",
-            message=f"Payment successful for Order #{order.id}.",
-            recipient_list=[order.user.email],
+            subject="Order Created",
+            message=f"Your order #{order.id} has been created successfully.",
+            recipient_list=[user.email],
             request_id=request_id,
         )
 
+
         send_sms_task.delay(
             phone_number="+917808040719",
-            message=f"Payment successful for Order #{order.id}.",
+            message=f"Order successful for Order #{order.id}.",
             request_id=request_id,
         )
 

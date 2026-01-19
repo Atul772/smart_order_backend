@@ -13,24 +13,21 @@ def test_background_task(self):
     print("Celery task executed successfully")
     return "done"
 
-@shared_task(
-    bind=True,
-    autoretry_for=(Exception,),
-    retry_backoff=5,
-    retry_kwargs={"max_retries": 3},
-)
+@shared_task(bind=True, max_retries=3)
 def send_email_task(self, subject, message, recipient_list, request_id=None):
-    logger.info(
-        f"[celery][request_id={request_id}] Sending email: {subject}"
-    )
+    try:
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=None,
+            recipient_list=recipient_list,
+            fail_silently=False,
+        )
+        logger.info(f"[EMAIL SENT] request_id={request_id}")
 
-    send_mail(
-        subject=subject,
-        message=message,
-        from_email=None,
-        recipient_list=recipient_list,
-        fail_silently=False,
-    )
+    except Exception as exc:
+        logger.error(f"[EMAIL FAILED] request_id={request_id}, error={exc}")
+        raise self.retry(exc=exc, countdown=5)
 
 
 @shared_task(

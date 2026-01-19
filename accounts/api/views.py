@@ -4,8 +4,14 @@ from rest_framework import status
 from .serializers import RegisterSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
+from drf_spectacular.utils import extend_schema
+from .serializers import RegisterSerializer
 
 
+@extend_schema(
+    request=RegisterSerializer,
+    responses={201: None},
+)
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 

@@ -6,8 +6,13 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import PaymentInitiateSerializer, PaymentCompleteSerializer
 from payments.services.payment_service import PaymentService
 from django.core.exceptions import PermissionDenied
+from drf_spectacular.utils import extend_schema
+from .serializers import PaymentInitiateSerializer, PaymentCompleteSerializer
 
 
+@extend_schema(
+    request=PaymentInitiateSerializer,
+)
 class PaymentInitiateView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -40,7 +45,9 @@ class PaymentInitiateView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-
+@extend_schema(
+    request=PaymentCompleteSerializer,
+)
 class PaymentCompleteView(APIView):
     permission_classes = [IsAuthenticated]
 

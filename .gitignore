@@ -1,0 +1,58 @@
+# ===============================
+# Python
+# ===============================
+_pycache_/
+*.py[cod]
+*$py.class
+
+# ===============================
+# Virtual Environment
+# ===============================
+venv/
+env/
+.venv/
+
+# ===============================
+# Django
+# ===============================
+*.log
+local_settings.py
+db.sqlite3
+media/
+
+
+# Migrations cache
+*/migrations/_pycache_/
+
+# ===============================
+# Static & Collected files
+# ===============================
+staticfiles/
+static_root/
+
+# ===============================
+# Environment variables
+# ===============================
+.env
+.env.*
+*.env
+
+# ===============================
+# IDE / Editor
+# ===============================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ===============================
+# OS files
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Node (if frontend added later)
+# ===============================
+node_modules/
+dist/

@@ -38,3 +38,4 @@ wcwidth==0.2.14
 drf-spectacular>=0.29.0
 gunicorn>=21.2.0
 whitenoise
+pytest-cov

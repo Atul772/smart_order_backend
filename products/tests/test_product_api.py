@@ -31,7 +31,10 @@ def test_product_list_shows_only_available_products():
 
     response = client.get(reverse("product-list"))
 
-    names = [p["name"] for p in response.data]
+    assert response.status_code == 200
+
+    results = response.data["results"]
+    names = [p["name"] for p in results]
 
     assert "Available Product" in names
     assert "Inactive Product" not in names
